@@ -1,0 +1,65 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+  	id 'application'
+	id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+group = 'com.yugzan'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+mainClassName = 'com.yugzan.BootifulFxLauncher'
+
+
+//def currentOS = org.gradle.internal.os.OperatingSystem.current()
+//def platform
+//if (currentOS.isWindows()) {
+//    platform = 'win'
+//} else if (currentOS.isLinux()) {
+//    platform = 'linux'
+//} else if (currentOS.isMacOsX()) {
+//    platform = 'mac'
+//}
+
+javafx {
+	version = "17"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.base']
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.yugzan.BootifulFxLauncher'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin
+//	implementation group: 'org.springframework.boot', name: 'spring-boot-maven-plugin', version: '2.5.4'
+	implementation 'org.springframework.boot:spring-boot-starter' //Demo
+	implementation group: 'org.openjfx', name: 'javafx-controls', version: '17'
+	implementation group: 'org.openjfx', name: 'javafx-graphics', version: '17'
+	implementation group: 'org.openjfx', name: 'javafx-fxml', version: '17'
+	implementation group: 'org.openjfx', name: 'javafx-base', version: '17'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
